@@ -14,3 +14,11 @@ class BlogUsers(db.Model):
     name = db.Column(db.String(256))
     password = db.Column(db.String(256))
 
+
+class BlogPost(db.Model):
+    __tablename__ = 'blog_post'
+
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(80), nullable=False)
+    caption = db.Column(db.String(250))
+    image = db.Column(db.LargeBinary, nullable = True)
