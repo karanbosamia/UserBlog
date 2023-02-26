@@ -4,7 +4,7 @@ from flask import Flask, redirect, render_template, request, url_for, jsonify
 from flask_cors import cross_origin
 from sqlalchemy_utils.functions import database_exists
 import hashlib
-from models.blog_users import BlogUsers
+from models.blog_users import BlogUsers, BlogPost
 from db import db, app, DB_URL
 
 
@@ -35,6 +35,16 @@ def login():
                 return jsonify({'status':'New addition of user'})
         else:
             return jsonify({'status': 'Invalid Submission'})
+
+@app.route('/postapost', methods=['GET', 'POST'])
+@cross_origin(supports_credentials=True)
+def add_post():
+    post_name = request.form.get('name', '')
+    caption = request.form.get('caption', '')
+    file_store = request.files.get('image', False)
+    db.session.add(BlogPost(name=post_name, caption=caption, image=file_store.read()))
+    db.session.commit()
+    return True
 
 
 if __name__ == "__main__":
