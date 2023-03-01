@@ -47,6 +47,15 @@ def add_post():
     return True
 
 
+@app.route('/get/profile', methods=['GET', 'POST'])
+@cross_origin(supports_credentials=True)
+def get_profile():
+    # import pdb
+    # pdb.set_trace()
+    user = BlogUsers()
+    test_user = user.query.filter_by(username='karan1').first()
+    return test_user.profile_picture
+
 if __name__ == "__main__":
     if not database_exists(DB_URL):
         with app.app_context():

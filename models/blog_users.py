@@ -13,7 +13,7 @@ class BlogUsers(db.Model):
     username = db.Column(db.String(256), unique=True)
     name = db.Column(db.String(256))
     password = db.Column(db.String(256))
-
+    profile_picture = db.Column(db.LargeBinary, nullable = True)
 
 class BlogPost(db.Model):
     __tablename__ = 'blog_post'
