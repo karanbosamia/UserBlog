@@ -47,14 +47,51 @@ def add_post():
     return True
 
 
-@app.route('/get/profile', methods=['GET', 'POST'])
+@app.route('/api/get/users', methods=['GET'])
 @cross_origin(supports_credentials=True)
+def get_users():
+    user = BlogUsers()
+    test_user = user.query.all()
+    users = []
+    for user in test_user:
+        users.append({
+            'id': user.id,
+            'username': user.username
+        })
+    return users
+
+@app.route('/get/profile', methods=['GET', 'POST'])
 def get_profile():
-    # import pdb
-    # pdb.set_trace()
     user = BlogUsers()
     test_user = user.query.filter_by(username='karan1').first()
     return test_user.profile_picture
+
+@app.route('/api/follow/<user_id>', methods=['POST'])
+@cross_origin(supports_credentials=True)
+def follow_user(user_id):
+    user = BlogUsers()
+    test_user = user.query.filter_by(username='karan1').first()
+    return test_user
+
+@app.route('/get/followers', methods=['GET', 'POST'])
+@cross_origin(supports_credentials=True)
+def get_followers():
+    user = BlogUsers()
+    test_user = user.query.filter_by(username='karan1').first()
+    return test_user.profile_picture
+
+@app.route('/api/following', methods=['GET'])
+@cross_origin(supports_credentials=True)
+def get_following():
+    user = BlogUsers()
+    test_user = user.query.filter_by(username='karan1').first()
+    followers = []
+    following = []
+    if test_user:
+        followed_ids = [following.id for following in test_user.followed_ids]
+    else:
+        followed_ids = []
+    return followed_ids
 
 if __name__ == "__main__":
     if not database_exists(DB_URL):
