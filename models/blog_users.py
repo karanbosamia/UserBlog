@@ -29,6 +29,7 @@ class BlogPost(db.Model):
     name = db.Column(db.String(80), nullable=False)
     caption = db.Column(db.String(250))
     image = db.Column(db.LargeBinary, nullable = True)
+    user_id = db.Column(db.Integer, db.ForeignKey("blog_users.id"))
 
 
 class Follow(db.Model):
